@@ -1,0 +1,32 @@
+[
+  {
+    "filing_id": "meridian",
+    "question": "How did non-performing real estate loans change?",
+    "expected_chunk_id": "meridian-credit-01"
+  },
+  {
+    "filing_id": "meridian",
+    "question": "Is wholesale funding increasing?",
+    "expected_chunk_id": "meridian-liquidity-01"
+  },
+  {
+    "filing_id": "northstar",
+    "question": "What is driving pressure on fee revenue?",
+    "expected_chunk_id": "northstar-market-02"
+  },
+  {
+    "filing_id": "northstar",
+    "question": "Can liquidity buffers cover redemptions?",
+    "expected_chunk_id": "northstar-liquidity-01"
+  },
+  {
+    "filing_id": "helix",
+    "question": "Why did transaction losses rise?",
+    "expected_chunk_id": "helix-ops-01"
+  },
+  {
+    "filing_id": "helix",
+    "question": "What is the processing partner concentration?",
+    "expected_chunk_id": "helix-ops-02"
+  }
+]

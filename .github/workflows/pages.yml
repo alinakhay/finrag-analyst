@@ -1,0 +1,49 @@
+name: Deploy web demo to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      [
+        'app/**',
+        'components/**',
+        'lib/**',
+        'public/**',
+        'package*.json',
+        'next.config.ts',
+      ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.API_BASE_URL }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/client
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

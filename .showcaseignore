@@ -1,0 +1,12 @@
+.git
+.openai
+.venv
+.next
+.vinext
+.wrangler
+dist
+node_modules
+private
+api/artifacts
+.env
+.DS_Store

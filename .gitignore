@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vinext/
+.next/
+.wrangler/
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+api/artifacts/
+qdrant_storage/
+.DS_Store

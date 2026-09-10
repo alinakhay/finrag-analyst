@@ -1,0 +1,49 @@
+name: finrag-analyst
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.19.0
+    restart: unless-stopped
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - '127.0.0.1:6333:6333'
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.full
+    restart: unless-stopped
+    environment:
+      FINRAG_ENVIRONMENT: local
+      FINRAG_CORS_ORIGINS: http://localhost:8080
+      FINRAG_RETRIEVER_BACKEND: hybrid
+      FINRAG_QDRANT_URL: http://qdrant:6333
+      FINRAG_MODEL_PROVIDER: huggingface
+      FINRAG_BASE_MODEL: Qwen/Qwen2.5-0.5B-Instruct
+      FINRAG_ADAPTER_PATH: /opt/finrag/api/artifacts/finqa-lora
+    volumes:
+      - huggingface_cache:/models/huggingface
+      - ./api/artifacts:/opt/finrag/api/artifacts
+    ports:
+      - '127.0.0.1:8000:8000'
+    depends_on:
+      qdrant:
+        condition: service_started
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8080:80'
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  qdrant_data:
+  huggingface_cache:

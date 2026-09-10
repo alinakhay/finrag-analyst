@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: finrag-analyst-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: FINRAG_ENVIRONMENT
+        value: production
+      - key: FINRAG_CORS_ORIGINS
+        sync: false
