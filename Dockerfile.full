@@ -11,7 +11,9 @@ RUN addgroup --system finrag && adduser --system --ingroup finrag finrag
 COPY api/pyproject.toml ./pyproject.toml
 COPY api/app ./app
 COPY api/data ./data
-RUN pip install --upgrade pip && pip install '.[semantic,training]'
+RUN pip install --upgrade pip \
+    && pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.4,<3' \
+    && pip install '.[semantic,training]'
 
 RUN mkdir -p /models/huggingface /opt/finrag/api/artifacts && chown -R finrag:finrag /models /opt/finrag
 USER finrag
