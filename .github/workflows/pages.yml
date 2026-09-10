@@ -40,6 +40,8 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.API_BASE_URL }}
+      - name: Normalize project Pages entrypoint
+        run: mv "dist/client/${{ github.event.repository.name }}.html" dist/client/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
