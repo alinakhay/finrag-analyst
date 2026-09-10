@@ -33,13 +33,24 @@ jobs:
 
   container:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: api-lite
+            dockerfile: Dockerfile
+          - name: api-full
+            dockerfile: Dockerfile.full
+          - name: web
+            dockerfile: Dockerfile.web
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
           context: .
+          file: ${{ matrix.dockerfile }}
           push: false
-          tags: finrag-analyst:ci
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: finrag-analyst:${{ matrix.name }}-ci
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
