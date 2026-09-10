@@ -2,7 +2,7 @@
 
 **A self-hosted financial-risk research system that answers questions about filings, cites its evidence, exposes its retrieval trace, and can serve a locally fine-tuned LLM.**
 
-> **Public showcase edition.** This repository is fully runnable and contains the product, API, sample fine-tuning path, evaluation fixture, and self-hosted deployment. The private companion edition additionally retains an extended training recipe, adversarial evaluation cases, and proposed operating targets; those assets are described below but are not represented as public or as measured production results.
+This repository is fully runnable and contains the product, API, sample fine-tuning path, evaluation fixture, and self-hosted deployment.
 
 ![FinRAG Analyst research workspace](docs/images/dashboard.png)
 
@@ -23,7 +23,7 @@ Financial analysts spend substantial time finding the few disclosures that expla
 5. expose the pipeline trace and operational signals;
 6. evaluate retrieval separately from generation.
 
-That makes the system useful as both a product demonstration and an interview-ready discussion of model, data, API, UX, and deployment trade-offs.
+That makes the system useful as an end-to-end demonstration of model, data, API, UX, and deployment trade-offs.
 
 ## What is implemented
 
@@ -153,7 +153,7 @@ Example request:
 ```bash
 curl -X POST http://localhost:8000/api/v1/analyze \
   -H 'Content-Type: application/json' \
-  -H 'X-Request-ID: interview-demo-01' \
+  -H 'X-Request-ID: portfolio-demo-01' \
   -d '{"filing_id":"meridian","question":"What changed in credit risk?"}'
 ```
 
@@ -266,52 +266,6 @@ Generation should be evaluated separately with claim-level citation precision, u
 - **Financial misuse:** risk scores are illustrative heuristics, not credit ratings or investment recommendations.
 - **Data governance:** public fixtures are synthetic; licensed or employer-owned documents should not be committed.
 
-## Public showcase and private full edition
-
-This project uses a transparent two-repository strategy:
-
-| Repository       | Visibility | Contents                                                                                                                        |
-| ---------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Full edition     | Private    | Complete application plus extended training recipe, adversarial evaluation set, and operating targets                           |
-| Showcase edition | Public     | Fully runnable application, sample LoRA path, synthetic data, tests, containers, screenshot, and complete technical explanation |
-
-The public edition is intentionally useful on its own. Only selected experimental and governance assets are reserved; the README documents the full architecture without pretending that private files are public or that unmeasured results exist.
-
-The public tree is generated from a committed snapshot so private files never enter its Git history:
-
-```bash
-./scripts/export-showcase.sh /absolute/path/to/finrag-analyst-showcase
-cd /absolute/path/to/finrag-analyst-showcase
-git init
-git add .
-git commit -m 'Publish FinRAG Analyst showcase edition'
-```
-
-## Design rationale
-
-The interface avoids the familiar “AI chatbot” visual vocabulary. It is structured as an editorial risk memorandum:
-
-- serif type for analysis and sans/mono type for system evidence;
-- restrained paper, ink, red, and assurance-green palette;
-- square rules and report numbering instead of floating rounded cards;
-- an evidence register rather than chat bubbles;
-- a visible model-assurance column and retrieval trace.
-
-The design makes provenance and analyst judgment feel central rather than decorative.
-
-## Interview walkthrough
-
-A concise demonstration takes about 90 seconds:
-
-1. Select a synthetic filing and point out the document boundary.
-2. Ask a risk question and open the evidence register.
-3. Explain that BM25 provides a reproducible baseline while Qdrant adds semantic recall.
-4. Open the retrieval trace to show where latency and failure can be diagnosed.
-5. Call `/health` or `/metrics` to demonstrate production concerns beyond the notebook.
-6. Explain the base-model/LoRA adapter switch and why issuer-level holdouts matter.
-
-The deeper interview notes live in [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md).
-
 ## Repository map
 
 ```text
@@ -322,8 +276,7 @@ api/data/                  synthetic filing chunks
 api/evaluation/            gold questions and retrieval metrics
 api/training/              LoRA trainer, inference script, sample data
 deploy/nginx.conf          local web server and API reverse proxy
-private/                   private-edition experiments and governance assets
-scripts/                   local-stack and showcase-export helpers
+scripts/                   local-stack helpers
 .github/workflows/         CI and optional static Pages deployment
 compose.yaml               complete self-hosted stack
 Dockerfile                 lightweight API image
