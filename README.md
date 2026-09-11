@@ -220,7 +220,7 @@ The current synthetic event set reports:
 | Event recall at 2 | 1.000 |
 | Mean reciprocal rank | 0.917 |
 | Impact-direction accuracy | 1.000 |
-| API tests | 9 passed |
+| API tests | 8 passed |
 
 These are regression checks on six controlled examples, not performance estimates for real news or prices.
 

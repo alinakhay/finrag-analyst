@@ -3,19 +3,15 @@ from pathlib import Path
 from typing import Any, Protocol
 
 from app.config import Settings
-from app.retrieval import SearchResult
 
 
 @dataclass(frozen=True)
 class GeneratedAnswer:
     answer: str
-    bullets: list[str]
 
 
 class Generator(Protocol):
     name: str
-
-    def generate(self, question: str, results: list[SearchResult]) -> GeneratedAnswer: ...
 
     def generate_market(
         self,
@@ -27,23 +23,9 @@ class Generator(Protocol):
 
 
 class ExtractiveGenerator:
-    """Deterministic fallback for tests, local demos, and attribution debugging."""
+    """Deterministic baseline for tests and local attribution debugging."""
 
     name = "extractive"
-
-    def generate(self, question: str, results: list[SearchResult]) -> GeneratedAnswer:
-        del question
-        sentences = [
-            sentence
-            for result in results[:2]
-            for sentence in result.chunk.text.split(". ")
-            if len(sentence.strip()) > 35
-        ]
-        sentences = [sentence.rstrip(".") + "." for sentence in sentences]
-        answer = " ".join(sentences[:2]) or (
-            "The indexed document does not contain enough evidence to answer safely."
-        )
-        return GeneratedAnswer(answer=answer, bullets=sentences[2:5] or sentences[:2])
 
     def generate_market(
         self,
@@ -53,11 +35,11 @@ class ExtractiveGenerator:
         metrics: Any,
     ) -> GeneratedAnswer:
         del question, evidence, metrics
-        return GeneratedAnswer(answer=asset["narrative"], bullets=[])
+        return GeneratedAnswer(answer=asset["narrative"])
 
 
 class HuggingFaceAdapterGenerator:
-    """Run a local base model, upgrading automatically when a LoRA adapter exists."""
+    """Run a local base model, using a LoRA adapter whenever one is available."""
 
     def __init__(self, settings: Settings):
         try:
@@ -109,27 +91,6 @@ class HuggingFaceAdapterGenerator:
             skip_special_tokens=True,
         ).strip()
 
-    def generate(self, question: str, results: list[SearchResult]) -> GeneratedAnswer:
-        evidence = "\n".join(
-            f"[{result.chunk.id}] {result.chunk.text}" for result in results
-        )
-        answer = self._complete(
-            [
-                {
-                    "role": "system",
-                    "content": (
-                        "Answer only from supplied evidence, quantify changes, "
-                        "cite source IDs, and abstain when support is weak."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": f"Question: {question}\nEvidence:\n{evidence}",
-                },
-            ]
-        )
-        return GeneratedAnswer(answer=answer, bullets=[])
-
     def generate_market(
         self,
         question: str,
@@ -138,7 +99,8 @@ class HuggingFaceAdapterGenerator:
         metrics: Any,
     ) -> GeneratedAnswer:
         evidence_text = "\n".join(
-            f"[{item.id}] {item.headline}. {item.quote}" for item in evidence
+            f"[{item.id}] {item.headline}. {item.quote}"
+            for item in evidence
         )
         prompt = (
             f"Asset: {asset['ticker']} vs {asset['benchmark']}\n"
@@ -153,16 +115,16 @@ class HuggingFaceAdapterGenerator:
                 {
                     "role": "system",
                     "content": (
-                        "You are a market catalyst analyst. Attribute price moves "
-                        "only to supplied evidence, distinguish initiating from "
-                        "reinforcing news, quantify abnormal return, cite source "
-                        "IDs, and do not give investment advice."
+                        "You are a market catalyst analyst. Attribute price "
+                        "moves only to supplied evidence, distinguish initiating "
+                        "from reinforcing news, quantify abnormal return, cite "
+                        "source IDs, and do not give investment advice."
                     ),
                 },
                 {"role": "user", "content": prompt},
             ]
         )
-        return GeneratedAnswer(answer=answer, bullets=[])
+        return GeneratedAnswer(answer=answer)
 
 
 def build_generator(settings: Settings) -> Generator:

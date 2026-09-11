@@ -2,49 +2,30 @@ import json
 import logging
 import time
 import uuid
-from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.corpus import load_corpus
+from app.generation import build_generator
 from app.market import MarketAnalysisService
 from app.models import (
-    AnalyzeRequest,
-    AnalyzeResponse,
-    FilingSummary,
     HealthResponse,
     MarketAnalyzeRequest,
     MarketAnalyzeResponse,
     MarketAssetSummary,
 )
-from app.service import AnalysisService
+from app.runtime import Metrics
 
 settings = get_settings()
 logging.basicConfig(level=settings.log_level, format="%(message)s")
 logger = logging.getLogger("catalystlens")
-service = AnalysisService(settings)
+generator = build_generator(settings)
+metrics_store = Metrics()
 market_service = MarketAnalysisService(
-    model_provider=service.generator.name,
-    generator=service.generator,
+    model_provider=generator.name,
+    generator=generator,
 )
-
-
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    load_corpus()
-    logger.info(
-        json.dumps(
-            {
-                "event": "startup",
-                "market_assets": len(market_service.asset_ids()),
-                "legacy_documents": len(service.filing_ids()),
-            }
-        )
-    )
-    yield
-
 
 app = FastAPI(
     title=settings.app_name,
@@ -54,7 +35,6 @@ app = FastAPI(
         "analysis with source evidence, event-study metrics, and a local "
         "LoRA serving path."
     ),
-    lifespan=lifespan,
 )
 app.add_middleware(
     CORSMiddleware,
@@ -100,9 +80,8 @@ def health() -> HealthResponse:
     return HealthResponse(
         status="ok",
         version=settings.app_version,
-        documents=len(service.filing_ids()),
         market_assets=len(market_service.asset_ids()),
-        model_provider=service.generator.name,
+        model_provider=generator.name,
     )
 
 
@@ -124,50 +103,17 @@ def market_analyze(
     payload: MarketAnalyzeRequest,
 ) -> MarketAnalyzeResponse:
     if payload.asset_id not in market_service.asset_ids():
-        service.metrics.observe(0, error=True)
+        metrics_store.observe(0, error=True)
         raise HTTPException(status_code=404, detail="Asset not found")
     started = time.perf_counter()
     result = market_service.analyze(payload)
-    service.metrics.observe((time.perf_counter() - started) * 1000)
+    metrics_store.observe((time.perf_counter() - started) * 1000)
     return result
-
-
-@app.get(
-    "/api/v1/filings",
-    response_model=list[FilingSummary],
-    tags=["legacy-filings"],
-)
-def filings() -> list[FilingSummary]:
-    unique = {}
-    for chunk in service.corpus:
-        unique.setdefault(
-            chunk.filing_id,
-            FilingSummary(
-                id=chunk.filing_id,
-                company=chunk.company,
-                form=chunk.form,
-                fiscal_year=chunk.fiscal_year,
-                sector=chunk.sector,
-            ),
-        )
-    return list(unique.values())
-
-
-@app.post(
-    "/api/v1/analyze",
-    response_model=AnalyzeResponse,
-    tags=["legacy-filings"],
-)
-def analyze(payload: AnalyzeRequest) -> AnalyzeResponse:
-    if payload.filing_id not in service.filing_ids():
-        service.metrics.observe(0, error=True)
-        raise HTTPException(status_code=404, detail="Filing not found")
-    return service.analyze(payload)
 
 
 @app.get("/metrics", include_in_schema=False, tags=["operations"])
 def metrics() -> Response:
     return Response(
-        service.metrics.as_prometheus(),
+        metrics_store.as_prometheus(),
         media_type="text/plain; version=0.0.4",
     )
