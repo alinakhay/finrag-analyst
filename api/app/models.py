@@ -50,9 +50,57 @@ class AnalyzeResponse(BaseModel):
     model_provider: str
 
 
+class MarketAssetSummary(BaseModel):
+    id: str
+    ticker: str
+    company: str
+    sector: str
+    benchmark: str
+    price: float
+    move_pct: float
+
+
+class MarketAnalyzeRequest(BaseModel):
+    asset_id: str = Field(min_length=2, max_length=16)
+    question: str = Field(min_length=5, max_length=500)
+    event_id: str | None = Field(default=None, max_length=64)
+
+
+class MarketMetrics(BaseModel):
+    cumulative_abnormal_return: float
+    volume_z_score: float
+    volatility_change_pct: float
+    beta: float
+    event_window: str = "[-1, +3]"
+
+
+class MarketEvidence(BaseModel):
+    id: str
+    category: str
+    direction: Literal["positive", "negative", "mixed"]
+    headline: str
+    source: str
+    time: str
+    confidence: int = Field(ge=0, le=100)
+    quote: str
+    interpretation: str
+
+
+class MarketAnalyzeResponse(BaseModel):
+    request_id: str
+    asset_id: str
+    ticker: str
+    question: str
+    summary: str
+    metrics: MarketMetrics
+    evidence: list[MarketEvidence]
+    trace: list[TraceStep]
+    model_provider: str
+
+
 class HealthResponse(BaseModel):
     status: Literal["ok"]
     version: str
     documents: int
+    market_assets: int = 0
     model_provider: str
-

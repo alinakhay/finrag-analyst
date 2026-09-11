@@ -1,0 +1,244 @@
+{
+  "assets": [
+    {
+      "id": "astr",
+      "ticker": "ASTR",
+      "company": "Asteron Semiconductors",
+      "sector": "Semiconductors",
+      "benchmark": "SOX",
+      "price": 184.62,
+      "move_pct": 8.41,
+      "labels": [
+        "D-5",
+        "D-4",
+        "D-3",
+        "D-2",
+        "D-1",
+        "Event",
+        "D+1",
+        "D+2",
+        "D+3"
+      ],
+      "prices": [
+        99.2,
+        99.8,
+        100.1,
+        99.7,
+        100.4,
+        105.9,
+        108.2,
+        108.8,
+        108.6
+      ],
+      "benchmark_prices": [
+        99.4,
+        99.7,
+        100.3,
+        100,
+        100.5,
+        101.2,
+        101.7,
+        102,
+        101.9
+      ],
+      "volumes": [
+        17,
+        52,
+        23,
+        49,
+        22,
+        96,
+        78,
+        51,
+        43
+      ],
+      "event_index": 5,
+      "beta": 1.18,
+      "narrative": "The move is most consistent with a guidance-led re-rating. Asteron raised data-centre revenue expectations and announced a multi-year hyperscaler agreement; the stock outperformed its semiconductor benchmark on unusually high volume.",
+      "catalysts": [
+        {
+          "id": "astr-guidance",
+          "category": "Guidance",
+          "direction": "positive",
+          "headline": "Management raises data-centre revenue outlook by 12%",
+          "source": "Asteron investor update",
+          "published_at": "2026-09-09T08:02:00-04:00",
+          "confidence": 0.94,
+          "quote": "We now expect data-centre revenue to grow 34–38% this fiscal year.",
+          "interpretation": "A material upward revision to the segment carrying the highest valuation sensitivity."
+        },
+        {
+          "id": "astr-contract",
+          "category": "Contract",
+          "direction": "positive",
+          "headline": "New accelerator supply agreement with a top-three cloud provider",
+          "source": "MarketWire",
+          "published_at": "2026-09-09T08:17:00-04:00",
+          "confidence": 0.87,
+          "quote": "Initial deployments begin next quarter under a multi-year capacity reservation.",
+          "interpretation": "Adds demand visibility and supports the durability of the guidance revision."
+        }
+      ]
+    },
+    {
+      "id": "nvrb",
+      "ticker": "NVRB",
+      "company": "Novaridge Bank",
+      "sector": "Regional banks",
+      "benchmark": "KRE",
+      "price": 41.08,
+      "move_pct": -4.26,
+      "labels": [
+        "D-5",
+        "D-4",
+        "D-3",
+        "D-2",
+        "D-1",
+        "Event",
+        "D+1",
+        "D+2",
+        "D+3"
+      ],
+      "prices": [
+        100.1,
+        100.4,
+        100.2,
+        99.8,
+        100,
+        96.8,
+        95.7,
+        95.9,
+        95.6
+      ],
+      "benchmark_prices": [
+        100,
+        100.1,
+        100.4,
+        100,
+        100.2,
+        99.7,
+        99.9,
+        100.1,
+        99.8
+      ],
+      "volumes": [
+        15,
+        56,
+        22,
+        58,
+        34,
+        88,
+        72,
+        49,
+        45
+      ],
+      "event_index": 5,
+      "beta": 0.91,
+      "narrative": "The sell-off appears credit-driven rather than a broad regional-bank move. A sector-neutral abnormal return coincided with an unexpected reserve build and weaker office-loan commentary.",
+      "catalysts": [
+        {
+          "id": "nvrb-reserves",
+          "category": "Credit",
+          "direction": "negative",
+          "headline": "Novaridge announces an unplanned commercial-real-estate reserve build",
+          "source": "Novaridge press release",
+          "published_at": "2026-09-09T07:31:00-04:00",
+          "confidence": 0.96,
+          "quote": "The quarter will include a $118 million provision tied primarily to office exposure.",
+          "interpretation": "The magnitude was outside prior guidance and directly reduces near-term earnings."
+        },
+        {
+          "id": "nvrb-rating",
+          "category": "Rating",
+          "direction": "negative",
+          "headline": "Broker cuts estimates following reserve announcement",
+          "source": "North Coast Research",
+          "published_at": "2026-09-09T09:06:00-04:00",
+          "confidence": 0.78,
+          "quote": "We reduce 2027 EPS by 9% and move the shares to Neutral.",
+          "interpretation": "A secondary catalyst that reinforced the initial credit shock after the open."
+        }
+      ]
+    },
+    {
+      "id": "orbt",
+      "ticker": "ORBT",
+      "company": "Orbit Payments",
+      "sector": "Financial technology",
+      "benchmark": "FINX",
+      "price": 76.34,
+      "move_pct": 5.62,
+      "labels": [
+        "D-5",
+        "D-4",
+        "D-3",
+        "D-2",
+        "D-1",
+        "Event",
+        "D+1",
+        "D+2",
+        "D+3"
+      ],
+      "prices": [
+        99.5,
+        99.9,
+        99.7,
+        100.3,
+        100,
+        103.7,
+        105.5,
+        105.8,
+        105.4
+      ],
+      "benchmark_prices": [
+        99.7,
+        99.8,
+        100,
+        100.2,
+        100.1,
+        100.8,
+        101,
+        101.3,
+        101.1
+      ],
+      "volumes": [
+        24,
+        53,
+        29,
+        56,
+        43,
+        91,
+        70,
+        55,
+        49
+      ],
+      "event_index": 5,
+      "beta": 1.07,
+      "narrative": "Orbit’s outperformance is linked to a regulatory clearance that removes a launch dependency. The volume spike and positive follow-through suggest the market treated the announcement as economically meaningful.",
+      "catalysts": [
+        {
+          "id": "orbt-clearance",
+          "category": "Regulation",
+          "direction": "positive",
+          "headline": "Payments licence approved in two additional markets",
+          "source": "Financial Conduct Authority bulletin",
+          "published_at": "2026-09-09T06:45:00-04:00",
+          "confidence": 0.95,
+          "quote": "Orbit Payments is authorised to provide merchant acquiring services.",
+          "interpretation": "Removes a key regulatory gate from the company’s international expansion plan."
+        },
+        {
+          "id": "orbt-launch",
+          "category": "Product",
+          "direction": "mixed",
+          "headline": "Orbit confirms phased merchant rollout begins next month",
+          "source": "Orbit company blog",
+          "published_at": "2026-09-09T08:30:00-04:00",
+          "confidence": 0.82,
+          "quote": "The first cohort will include 1,200 small and mid-sized merchants.",
+          "interpretation": "Supports revenue optionality, though the phased schedule limits near-term contribution."
+        }
+      ]
+    }
+  ]
+}

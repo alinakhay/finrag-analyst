@@ -24,8 +24,8 @@ build:
 	npm run build
 
 docker:
-	docker build -t finrag-analyst .
-	docker run --rm -p 8000:8000 finrag-analyst
+	docker build -t catalystlens .
+	docker run --rm -p 8000:8000 catalystlens
 
 full-up:
 	docker compose up --build -d

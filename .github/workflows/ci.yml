@@ -51,6 +51,6 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           push: false
-          tags: finrag-analyst:${{ matrix.name }}-ci
+          tags: catalystlens:${{ matrix.name }}-ci
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.name }}

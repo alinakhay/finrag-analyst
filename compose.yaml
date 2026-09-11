@@ -1,4 +1,4 @@
-name: finrag-analyst
+name: catalystlens
 
 services:
   qdrant:
@@ -15,16 +15,16 @@ services:
       dockerfile: Dockerfile.full
     restart: unless-stopped
     environment:
-      FINRAG_ENVIRONMENT: local
-      FINRAG_CORS_ORIGINS: http://localhost:8080
-      FINRAG_RETRIEVER_BACKEND: hybrid
-      FINRAG_QDRANT_URL: http://qdrant:6333
-      FINRAG_MODEL_PROVIDER: huggingface
-      FINRAG_BASE_MODEL: Qwen/Qwen2.5-0.5B-Instruct
-      FINRAG_ADAPTER_PATH: /opt/finrag/api/artifacts/finqa-lora
+      CATALYSTLENS_ENVIRONMENT: local
+      CATALYSTLENS_CORS_ORIGINS: http://localhost:8080
+      CATALYSTLENS_RETRIEVER_BACKEND: hybrid
+      CATALYSTLENS_QDRANT_URL: http://qdrant:6333
+      CATALYSTLENS_MODEL_PROVIDER: huggingface
+      CATALYSTLENS_BASE_MODEL: Qwen/Qwen2.5-0.5B-Instruct
+      CATALYSTLENS_ADAPTER_PATH: /opt/catalystlens/api/artifacts/catalyst-lora
     volumes:
       - huggingface_cache:/models/huggingface
-      - ./api/artifacts:/opt/finrag/api/artifacts
+      - ./api/artifacts:/opt/catalystlens/api/artifacts
     ports:
       - '127.0.0.1:8000:8000'
     depends_on:

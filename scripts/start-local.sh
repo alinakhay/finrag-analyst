@@ -8,6 +8,6 @@ if ! command -v docker >/dev/null 2>&1; then
 fi
 
 docker compose up --build -d
-echo "FinRAG Analyst: http://localhost:8080"
+echo "CatalystLens: http://localhost:8080"
 echo "API documentation: http://localhost:8000/docs"
 echo "First startup may take several minutes while the local model downloads."

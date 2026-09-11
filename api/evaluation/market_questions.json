@@ -1,0 +1,38 @@
+[
+  {
+    "asset_id": "astr",
+    "question": "Did higher data-centre guidance explain the rally?",
+    "expected_event_id": "astr-guidance",
+    "expected_direction": "positive"
+  },
+  {
+    "asset_id": "astr",
+    "question": "Was there a cloud supply contract?",
+    "expected_event_id": "astr-contract",
+    "expected_direction": "positive"
+  },
+  {
+    "asset_id": "nvrb",
+    "question": "What credit provision drove the sell-off?",
+    "expected_event_id": "nvrb-reserves",
+    "expected_direction": "negative"
+  },
+  {
+    "asset_id": "nvrb",
+    "question": "Did an analyst rating change reinforce the move?",
+    "expected_event_id": "nvrb-rating",
+    "expected_direction": "negative"
+  },
+  {
+    "asset_id": "orbt",
+    "question": "Which regulatory clearance moved Orbit?",
+    "expected_event_id": "orbt-clearance",
+    "expected_direction": "positive"
+  },
+  {
+    "asset_id": "orbt",
+    "question": "What merchant product launch was announced?",
+    "expected_event_id": "orbt-launch",
+    "expected_direction": "positive"
+  }
+]

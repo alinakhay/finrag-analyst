@@ -1,8 +1,8 @@
-"""Parameter-efficient SFT for evidence-grounded financial risk answers.
+"""Parameter-efficient SFT for grounded news-to-market impact briefs.
 
 Run from api/: python training/train_lora.py
-The small default model is laptop-friendly for a smoke test; use a larger instruct
-model and a CUDA runner for a portfolio-quality training run.
+The small default model supports a laptop smoke test. A CUDA runner is recommended
+for a portfolio-quality experiment with repeated seeds and a larger instruct model.
 """
 
 import os
@@ -20,9 +20,15 @@ from transformers import (
 )
 
 ROOT = Path(__file__).parent
-MODEL_ID = os.getenv("FINRAG_BASE_MODEL", "Qwen/Qwen2.5-0.5B-Instruct")
-OUTPUT_DIR = os.getenv("FINRAG_ADAPTER_PATH", "artifacts/finqa-lora")
-MAX_LENGTH = int(os.getenv("FINRAG_MAX_LENGTH", "768"))
+MODEL_ID = os.getenv(
+    "CATALYSTLENS_BASE_MODEL",
+    "Qwen/Qwen2.5-0.5B-Instruct",
+)
+OUTPUT_DIR = os.getenv(
+    "CATALYSTLENS_ADAPTER_PATH",
+    "artifacts/catalyst-lora",
+)
+MAX_LENGTH = int(os.getenv("CATALYSTLENS_MAX_LENGTH", "768"))
 
 
 def main() -> None:
@@ -38,7 +44,9 @@ def main() -> None:
 
     def encode(batch: dict) -> dict:
         text = tokenizer.apply_chat_template(
-            batch["messages"], tokenize=False, add_generation_prompt=False
+            batch["messages"],
+            tokenize=False,
+            add_generation_prompt=False,
         )
         return tokenizer(text, truncation=True, max_length=MAX_LENGTH)
 
@@ -65,7 +73,7 @@ def main() -> None:
 
     arguments = TrainingArguments(
         output_dir=OUTPUT_DIR,
-        num_train_epochs=float(os.getenv("FINRAG_EPOCHS", "3")),
+        num_train_epochs=float(os.getenv("CATALYSTLENS_EPOCHS", "3")),
         per_device_train_batch_size=1,
         per_device_eval_batch_size=1,
         gradient_accumulation_steps=8,
@@ -95,4 +103,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

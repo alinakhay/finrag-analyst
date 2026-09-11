@@ -5,8 +5,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     HF_HOME=/models/huggingface
 
-WORKDIR /opt/finrag/api
-RUN addgroup --system finrag && adduser --system --ingroup finrag finrag
+WORKDIR /opt/catalystlens/api
+RUN addgroup --system catalystlens && adduser --system --ingroup catalystlens catalystlens
 
 COPY api/pyproject.toml ./pyproject.toml
 COPY api/app ./app
@@ -15,8 +15,8 @@ RUN pip install --upgrade pip \
     && pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.4,<3' \
     && pip install '.[semantic,training]'
 
-RUN mkdir -p /models/huggingface /opt/finrag/api/artifacts && chown -R finrag:finrag /models /opt/finrag
-USER finrag
+RUN mkdir -p /models/huggingface /opt/catalystlens/api/artifacts && chown -R catalystlens:catalystlens /models /opt/catalystlens
+USER catalystlens
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"

@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "finrag-analyst-api"
-version = "0.1.0"
-description = "Evidence-grounded financial risk analysis API"
+name = "catalystlens-api"
+version = "0.2.0"
+description = "Self-hosted news-to-market catalyst research API"
 requires-python = ">=3.11,<3.15"
 dependencies = [
   "fastapi>=0.115,<1",
@@ -41,4 +41,3 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
-

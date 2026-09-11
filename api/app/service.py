@@ -32,15 +32,15 @@ class Metrics:
             p95 = latencies[p95_index] if latencies else 0
             return "\n".join(
                 [
-                    "# HELP finrag_requests_total Total analysis requests.",
-                    "# TYPE finrag_requests_total counter",
-                    f"finrag_requests_total {self.requests}",
-                    "# HELP finrag_errors_total Total failed analysis requests.",
-                    "# TYPE finrag_errors_total counter",
-                    f"finrag_errors_total {self.errors}",
-                    "# HELP finrag_latency_p95_ms Rolling p95 analysis latency.",
-                    "# TYPE finrag_latency_p95_ms gauge",
-                    f"finrag_latency_p95_ms {p95:.2f}",
+                    "# HELP catalystlens_requests_total Total analysis requests.",
+                    "# TYPE catalystlens_requests_total counter",
+                    f"catalystlens_requests_total {self.requests}",
+                    "# HELP catalystlens_errors_total Total failed analysis requests.",
+                    "# TYPE catalystlens_errors_total counter",
+                    f"catalystlens_errors_total {self.errors}",
+                    "# HELP catalystlens_latency_p95_ms Rolling p95 analysis latency.",
+                    "# TYPE catalystlens_latency_p95_ms gauge",
+                    f"catalystlens_latency_p95_ms {p95:.2f}",
                     "",
                 ]
             )

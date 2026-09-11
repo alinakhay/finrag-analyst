@@ -4,15 +4,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
-WORKDIR /opt/finrag/api
-RUN addgroup --system finrag && adduser --system --ingroup finrag finrag
+WORKDIR /opt/catalystlens/api
+RUN addgroup --system catalystlens && adduser --system --ingroup catalystlens catalystlens
 
 COPY api/pyproject.toml ./pyproject.toml
 COPY api/app ./app
 COPY api/data ./data
 RUN pip install --upgrade pip && pip install .
 
-USER finrag
+USER catalystlens
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"

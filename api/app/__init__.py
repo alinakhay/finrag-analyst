@@ -1,2 +1,2 @@
-"""FinRAG Analyst API."""
+"""CatalystLens API."""
 

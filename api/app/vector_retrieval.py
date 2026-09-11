@@ -14,7 +14,7 @@ class QdrantDenseRetriever:
             from sentence_transformers import SentenceTransformer
         except ImportError as error:
             raise RuntimeError(
-                "Install the semantic extra before using FINRAG_RETRIEVER_BACKEND=hybrid"
+                "Install the semantic extra before using CATALYSTLENS_RETRIEVER_BACKEND=hybrid"
             ) from error
         self.chunks = chunks
         self.models = models
