@@ -45,6 +45,15 @@ class MarketEvidence(BaseModel):
     interpretation: str
 
 
+class CitationValidation(BaseModel):
+    valid: bool
+    cited_ids: list[str]
+    unsupported_ids: list[str]
+    uncited_claim_count: int = Field(ge=0)
+    abstained: bool
+    reason: str
+
+
 class MarketAnalyzeResponse(BaseModel):
     request_id: str
     asset_id: str
@@ -55,6 +64,7 @@ class MarketAnalyzeResponse(BaseModel):
     evidence: list[MarketEvidence]
     trace: list[TraceStep]
     model_provider: str
+    citation_validation: CitationValidation
 
 
 class HealthResponse(BaseModel):

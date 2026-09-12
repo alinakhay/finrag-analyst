@@ -70,7 +70,7 @@ const assets: Asset[] = [
     volatility: 405.1,
     beta: 1.18,
     narrative:
-      'The move is most consistent with a guidance-led re-rating. Asteron raised data-centre revenue expectations and announced a multi-year hyperscaler agreement; the stock outperformed its semiconductor benchmark on unusually high volume.',
+      'The move is most consistent with a guidance-led re-rating [astr-guidance]. Asteron also announced a multi-year accelerator supply agreement [astr-contract].',
     catalysts: [
       {
         id: 'astr-guidance',
@@ -114,7 +114,7 @@ const assets: Asset[] = [
     volatility: 354.4,
     beta: 0.91,
     narrative:
-      'The sell-off appears credit-driven rather than a broad regional-bank move. A sector-neutral abnormal return coincided with an unexpected reserve build and weaker office-loan commentary.',
+      'The sell-off appears credit-driven rather than a broad regional-bank move [nvrb-reserves]. A subsequent broker downgrade reduced earnings estimates and reinforced the move [nvrb-rating].',
     catalysts: [
       {
         id: 'nvrb-reserves',
@@ -158,7 +158,7 @@ const assets: Asset[] = [
     volatility: 307.5,
     beta: 1.07,
     narrative:
-      'Orbit’s outperformance is linked to a regulatory clearance that removes a launch dependency. The volume spike and positive follow-through suggest the market treated the announcement as economically meaningful.',
+      'Orbit’s outperformance is linked to a regulatory clearance that removes a launch dependency [orbt-clearance]. Orbit subsequently confirmed a phased rollout to an initial merchant cohort [orbt-launch].',
     catalysts: [
       {
         id: 'orbt-clearance',
@@ -197,6 +197,14 @@ type MarketResult = {
   evidence: Catalyst[];
   trace: Array<{ name: string; detail: string; duration_ms: number }>;
   model_provider: string;
+  citation_validation: {
+    valid: boolean;
+    cited_ids: string[];
+    unsupported_ids: string[];
+    uncited_claim_count: number;
+    abstained: boolean;
+    reason: string;
+  };
 };
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
@@ -234,10 +242,10 @@ export default function Home() {
     beta: asset.beta,
   };
   const trace = result?.trace ?? [
-    { name: 'News normalization', detail: '2 sources · deduplicated', duration_ms: 18 },
-    { name: 'Catalyst extraction', detail: 'local LoRA · 2 events', duration_ms: 412 },
+    { name: 'Fixture loading', detail: '2 validated synthetic records', duration_ms: 18 },
+    { name: 'Catalyst retrieval', detail: 'lexical fixture baseline · 2 events', duration_ms: 24 },
     { name: 'Event study', detail: 'market-model window [-1, +3]', duration_ms: 11 },
-    { name: 'Evidence guardrail', detail: 'all claims source-linked', duration_ms: 7 },
+    { name: 'Citation-ID guardrail', detail: 'fixture evidence IDs verified', duration_ms: 7 },
   ];
 
   function selectAsset(nextId: string) {
@@ -291,9 +299,9 @@ export default function Home() {
           </div>
         </div>
         <div className="market-session">
-          <span className="data-state"><i /> LOCAL STACK</span>
+          <span className="data-state"><i /> FIXTURE MODE</span>
           <span>EVENT WINDOW · 09 SEP 2026</span>
-          <span className="model-pill"><Cpu size={13} /> LORA READY</span>
+          <span className="model-pill"><Cpu size={13} /> EXTRACTIVE BASELINE</span>
         </div>
       </header>
 
@@ -333,9 +341,9 @@ export default function Home() {
 
           <div className="pipeline-mini">
             <span className="eyebrow">Data pipeline</span>
-            <p><CheckCircle2 size={14} /> News cache indexed</p>
+            <p><CheckCircle2 size={14} /> Fixture news loaded</p>
             <p><CheckCircle2 size={14} /> Price bars aligned</p>
-            <p><CheckCircle2 size={14} /> Sources validated</p>
+            <p><CheckCircle2 size={14} /> Citation IDs validated</p>
           </div>
 
           <p className="synthetic-disclosure">
@@ -415,7 +423,7 @@ export default function Home() {
                   </div>
                   <strong>{catalyst.headline}</strong>
                   <p>{catalyst.interpretation}</p>
-                  <small>{catalyst.source} · {catalyst.confidence}% extraction confidence</small>
+                  <small>{catalyst.source} · {catalyst.confidence}% fixture relevance score</small>
                 </button>
               ))}
             </div>
@@ -447,7 +455,10 @@ export default function Home() {
               <div className="impact-brief">
                 <div className="brief-confidence">
                   <ShieldCheck size={17} />
-                  <span><strong>High confidence</strong> · evidence-aligned explanation</span>
+                  <span>
+                    <strong>{result?.citation_validation.abstained ? 'Safely abstained' : 'Evidence checked'}</strong>
+                    {' · '}{result?.citation_validation.reason ?? 'deterministic fixture with explicit evidence IDs'}
+                  </span>
                 </div>
                 <h2>Market impact brief</h2>
                 <p>{result?.summary ?? asset.narrative}</p>
@@ -517,7 +528,7 @@ export default function Home() {
           </div>
 
           <div className="attribution-card">
-            <span className="eyebrow">Move attribution</span>
+            <span className="eyebrow">Illustrative fixture attribution</span>
             {asset.catalysts.map((item, index) => (
               <div key={item.id}>
                 <span>{item.category}</span>
@@ -529,9 +540,9 @@ export default function Home() {
 
           <div className="model-card">
             <div><Database size={17} /><span>Inference</span></div>
-            <strong>Local catalyst extractor</strong>
-            <p>Base model + PEFT LoRA adapter</p>
-            <span className="model-status"><i /> {result?.model_provider ?? 'local-lora'}</span>
+            <strong>Deterministic extractor</strong>
+            <p>Optional local PEFT/LoRA path</p>
+            <span className="model-status"><i /> {result?.model_provider ?? 'extractive-fixture'}</span>
           </div>
 
           <div className="method-note">

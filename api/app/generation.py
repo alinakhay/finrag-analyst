@@ -34,8 +34,19 @@ class ExtractiveGenerator:
         evidence: list[Any],
         metrics: Any,
     ) -> GeneratedAnswer:
-        del question, evidence, metrics
-        return GeneratedAnswer(answer=asset["narrative"])
+        del question, metrics
+        retrieved_ids = {item.id for item in evidence}
+        claims = []
+        for claim in asset["narrative_claims"]:
+            citation_ids = claim["evidence_ids"]
+            if set(citation_ids) <= retrieved_ids:
+                citations = " ".join(f"[{evidence_id}]" for evidence_id in citation_ids)
+                text = claim["text"].strip()
+                if text.endswith((".", "!", "?")):
+                    claims.append(f"{text[:-1]} {citations}{text[-1]}")
+                else:
+                    claims.append(f"{text} {citations}")
+        return GeneratedAnswer(answer=" ".join(claims))
 
 
 class HuggingFaceAdapterGenerator:

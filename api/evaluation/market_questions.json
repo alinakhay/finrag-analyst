@@ -1,38 +1,20 @@
 [
-  {
-    "asset_id": "astr",
-    "question": "Did higher data-centre guidance explain the rally?",
-    "expected_event_id": "astr-guidance",
-    "expected_direction": "positive"
-  },
-  {
-    "asset_id": "astr",
-    "question": "Was there a cloud supply contract?",
-    "expected_event_id": "astr-contract",
-    "expected_direction": "positive"
-  },
-  {
-    "asset_id": "nvrb",
-    "question": "What credit provision drove the sell-off?",
-    "expected_event_id": "nvrb-reserves",
-    "expected_direction": "negative"
-  },
-  {
-    "asset_id": "nvrb",
-    "question": "Did an analyst rating change reinforce the move?",
-    "expected_event_id": "nvrb-rating",
-    "expected_direction": "negative"
-  },
-  {
-    "asset_id": "orbt",
-    "question": "Which regulatory clearance moved Orbit?",
-    "expected_event_id": "orbt-clearance",
-    "expected_direction": "positive"
-  },
-  {
-    "asset_id": "orbt",
-    "question": "What merchant product launch was announced?",
-    "expected_event_id": "orbt-launch",
-    "expected_direction": "positive"
-  }
+  {"asset_id": "astr", "question": "Did higher data-centre guidance explain the rally?", "expected_event_id": "astr-guidance", "expected_direction": "positive"},
+  {"asset_id": "astr", "question": "How much revenue growth did management expect?", "expected_event_id": "astr-guidance", "expected_direction": "positive"},
+  {"asset_id": "astr", "question": "Was there a cloud supply contract?", "expected_event_id": "astr-contract", "expected_direction": "positive"},
+  {"asset_id": "astr", "question": "Did a multi-year capacity reservation support demand?", "expected_event_id": "astr-contract", "expected_direction": "positive"},
+  {"asset_id": "nvrb", "question": "What credit provision drove the sell-off?", "expected_event_id": "nvrb-reserves", "expected_direction": "negative"},
+  {"asset_id": "nvrb", "question": "Was office exposure behind the reserve build?", "expected_event_id": "nvrb-reserves", "expected_direction": "negative"},
+  {"asset_id": "nvrb", "question": "Did an analyst rating reinforce the move?", "expected_event_id": "nvrb-rating", "expected_direction": "negative"},
+  {"asset_id": "nvrb", "question": "What happened to the 2027 EPS estimates?", "expected_event_id": "nvrb-rating", "expected_direction": "negative"},
+  {"asset_id": "orbt", "question": "Which regulatory clearance moved Orbit?", "expected_event_id": "orbt-clearance", "expected_direction": "positive"},
+  {"asset_id": "orbt", "question": "Was merchant acquiring authorised?", "expected_event_id": "orbt-clearance", "expected_direction": "positive"},
+  {"asset_id": "orbt", "question": "What merchant product launch was announced?", "expected_event_id": "orbt-launch", "expected_direction": "positive"},
+  {"asset_id": "orbt", "question": "How many merchants are in the first cohort?", "expected_event_id": "orbt-launch", "expected_direction": "positive"},
+  {"asset_id": "astr", "question": "Was a dividend declared?", "expected_event_id": null},
+  {"asset_id": "astr", "question": "Did the chief executive resign?", "expected_event_id": null},
+  {"asset_id": "nvrb", "question": "Was there a cyber breach?", "expected_event_id": null},
+  {"asset_id": "nvrb", "question": "Were any branches closed?", "expected_event_id": null},
+  {"asset_id": "orbt", "question": "Did Orbit announce an acquisition?", "expected_event_id": null},
+  {"asset_id": "orbt", "question": "Were employee layoffs reported?", "expected_event_id": null}
 ]

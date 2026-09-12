@@ -55,6 +55,16 @@
       "event_index": 5,
       "beta": 1.18,
       "narrative": "The move is most consistent with a guidance-led re-rating. Asteron raised data-centre revenue expectations and announced a multi-year hyperscaler agreement; the stock outperformed its semiconductor benchmark on unusually high volume.",
+      "narrative_claims": [
+        {
+          "text": "The move is most consistent with a guidance-led re-rating.",
+          "evidence_ids": ["astr-guidance"]
+        },
+        {
+          "text": "Asteron announced a multi-year accelerator supply agreement with a top-three cloud provider.",
+          "evidence_ids": ["astr-contract"]
+        }
+      ],
       "catalysts": [
         {
           "id": "astr-guidance",
@@ -135,6 +145,16 @@
       "event_index": 5,
       "beta": 0.91,
       "narrative": "The sell-off appears credit-driven rather than a broad regional-bank move. A sector-neutral abnormal return coincided with an unexpected reserve build and weaker office-loan commentary.",
+      "narrative_claims": [
+        {
+          "text": "The sell-off appears credit-driven rather than a broad regional-bank move.",
+          "evidence_ids": ["nvrb-reserves"]
+        },
+        {
+          "text": "A subsequent broker downgrade reduced 2027 earnings estimates and reinforced the move.",
+          "evidence_ids": ["nvrb-rating"]
+        }
+      ],
       "catalysts": [
         {
           "id": "nvrb-reserves",
@@ -215,6 +235,16 @@
       "event_index": 5,
       "beta": 1.07,
       "narrative": "Orbit’s outperformance is linked to a regulatory clearance that removes a launch dependency. The volume spike and positive follow-through suggest the market treated the announcement as economically meaningful.",
+      "narrative_claims": [
+        {
+          "text": "Orbit’s outperformance is linked to a regulatory clearance that removes a launch dependency.",
+          "evidence_ids": ["orbt-clearance"]
+        },
+        {
+          "text": "Orbit subsequently confirmed a phased rollout to an initial merchant cohort.",
+          "evidence_ids": ["orbt-launch"]
+        }
+      ],
       "catalysts": [
         {
           "id": "orbt-clearance",

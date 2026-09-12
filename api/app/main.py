@@ -25,15 +25,16 @@ metrics_store = Metrics()
 market_service = MarketAnalysisService(
     model_provider=generator.name,
     generator=generator,
+    top_k=settings.top_k,
 )
 
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
     description=(
-        "Self-hosted financial-news catalyst extraction and market-impact "
-        "analysis with source evidence, event-study metrics, and a local "
-        "LoRA serving path."
+        "Financial-news catalyst ranking and market-impact analysis with "
+        "verified citation IDs, safe abstention, event-study metrics, and "
+        "an optional local LoRA serving path."
     ),
 )
 app.add_middleware(
@@ -106,7 +107,11 @@ def market_analyze(
         metrics_store.observe(0, error=True)
         raise HTTPException(status_code=404, detail="Asset not found")
     started = time.perf_counter()
-    result = market_service.analyze(payload)
+    try:
+        result = market_service.analyze(payload)
+    except ValueError as error:
+        metrics_store.observe(0, error=True)
+        raise HTTPException(status_code=404, detail=str(error)) from error
     metrics_store.observe((time.perf_counter() - started) * 1000)
     return result
 

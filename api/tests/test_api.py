@@ -40,6 +40,8 @@ def test_market_analysis_returns_evidence_and_event_metrics() -> None:
     assert result["metrics"]["cumulative_abnormal_return"] > 0
     assert result["metrics"]["volume_z_score"] > 2
     assert len(result["trace"]) == 4
+    assert result["citation_validation"]["valid"] is True
+    assert "astr-guidance" in result["citation_validation"]["cited_ids"]
 
 
 def test_selected_event_is_ranked_first() -> None:
@@ -72,6 +74,18 @@ def test_unknown_asset_returns_404() -> None:
     response = client.post(
         "/api/v1/market-analyze",
         json={"asset_id": "missing", "question": "What moved the price?"},
+    )
+    assert response.status_code == 404
+
+
+def test_unknown_event_returns_404() -> None:
+    response = client.post(
+        "/api/v1/market-analyze",
+        json={
+            "asset_id": "astr",
+            "question": "What moved the price?",
+            "event_id": "nvrb-reserves",
+        },
     )
     assert response.status_code == 404
 

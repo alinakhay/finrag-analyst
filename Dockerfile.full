@@ -13,7 +13,7 @@ COPY api/app ./app
 COPY api/data ./data
 RUN pip install --upgrade pip \
     && pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.4,<3' \
-    && pip install '.[semantic,training]'
+    && pip install '.[training]'
 
 RUN mkdir -p /models/huggingface /opt/catalystlens/api/artifacts && chown -R catalystlens:catalystlens /models /opt/catalystlens
 USER catalystlens

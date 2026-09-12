@@ -1,35 +1,18 @@
 name: catalystlens
 
 services:
-  qdrant:
-    image: qdrant/qdrant:v1.19.0
-    restart: unless-stopped
-    volumes:
-      - qdrant_data:/qdrant/storage
-    ports:
-      - '127.0.0.1:6333:6333'
-
   api:
     build:
       context: .
-      dockerfile: Dockerfile.full
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       CATALYSTLENS_ENVIRONMENT: local
       CATALYSTLENS_CORS_ORIGINS: http://localhost:8080
-      CATALYSTLENS_RETRIEVER_BACKEND: hybrid
-      CATALYSTLENS_QDRANT_URL: http://qdrant:6333
-      CATALYSTLENS_MODEL_PROVIDER: huggingface
-      CATALYSTLENS_BASE_MODEL: Qwen/Qwen2.5-0.5B-Instruct
-      CATALYSTLENS_ADAPTER_PATH: /opt/catalystlens/api/artifacts/catalyst-lora
-    volumes:
-      - huggingface_cache:/models/huggingface
-      - ./api/artifacts:/opt/catalystlens/api/artifacts
+      CATALYSTLENS_TOP_K: 2
+      CATALYSTLENS_MODEL_PROVIDER: extractive
     ports:
       - '127.0.0.1:8000:8000'
-    depends_on:
-      qdrant:
-        condition: service_started
 
   web:
     build:
@@ -43,7 +26,3 @@ services:
     depends_on:
       api:
         condition: service_healthy
-
-volumes:
-  qdrant_data:
-  huggingface_cache:
