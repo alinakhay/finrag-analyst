@@ -268,6 +268,10 @@ compose.yaml                 local web and API stack
 Dockerfile*                  lightweight API, full ML API, and web images
 ~~~
 
+## Public disclosure boundary
+
+This showcase contains source code, synthetic fixtures, tests, documentation, and generated interface assets only. It contains no credentials, customer or employer data, licensed market data, trained model weights, private endpoints, or production configuration. `.env.example` documents variable names with non-sensitive local defaults; real environment files remain untracked.
+
 ## Scope
 
 CatalystLens demonstrates research engineering and model operations, not a trading strategy or a production RAG system. It does not backtest a portfolio, model transaction costs, or claim that news causally determines returns. Its event attribution is a transparent fixture baseline: evidence and benchmark-relative reaction are shown together so a human can challenge the conclusion.
